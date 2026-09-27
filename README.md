@@ -1,5 +1,7 @@
 # cliniccare-healthcare-management-system
 A software-based healthcare management system for managing patient information, clinic appointments, ambulance requests, and blood-related requirements in one centralized platform.
+
+Website is now live at : https://cliniccare-93q7.onrender.com/
 # Sahayak — Clinic Appointment, Patient & Emergency Management System
 
 A lightweight, single-clinic coordination tool covering patient registration,
