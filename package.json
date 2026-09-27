@@ -1,0 +1,13 @@
+{
+  "name": "clinic-appointment-emergency-system",
+  "version": "1.0.0",
+  "description": "Clinic Appointment, Patient & Emergency Management System (hackathon MVP) - patient registration, appointment scheduling, ambulance requests, blood group search, and nearby facility info. Administrative/coordination only - no medical diagnosis or treatment advice.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "license": "MIT"
+}

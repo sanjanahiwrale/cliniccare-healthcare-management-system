@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sahayak Clinic &amp; Emergency Coordination</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">+</span>
+      <div class="brand-text">
+        <strong>Sahayak</strong>
+        <span>Clinic &amp; Emergency Coordination</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-item active" data-view="dashboard">Dashboard</button>
+      <button class="nav-item" data-view="patients">Patients</button>
+      <button class="nav-item" data-view="appointments">Appointments</button>
+      <button class="nav-item" data-view="ambulance">Ambulance Requests</button>
+      <button class="nav-item" data-view="blood">Blood Requirements</button>
+      <button class="nav-item" data-view="facilities">Nearby Facilities</button>
+    </nav>
+
+    <div class="disclaimer">
+      This tool coordinates appointments and emergency logistics only.
+      It does not offer medical diagnosis, treatment advice, or clinical
+      decision-making. In a life-threatening emergency, call local
+      emergency services immediately.
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- ============ DASHBOARD ============ -->
+    <section id="view-dashboard" class="view active">
+      <header class="view-header">
+        <h1>Today at a glance</h1>
+        <p>A quick read on appointments, patients and emergency activity.</p>
+      </header>
+      <div class="stat-grid" id="statGrid"></div>
+
+      <div class="panel-row">
+        <div class="panel">
+          <h2>Upcoming appointments</h2>
+          <div id="dashUpcoming" class="mini-list"></div>
+        </div>
+        <div class="panel">
+          <h2>Pending ambulance requests</h2>
+          <div id="dashAmbulance" class="mini-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PATIENTS ============ -->
+    <section id="view-patients" class="view">
+      <header class="view-header">
+        <h1>Patients</h1>
+        <p>Register new patients and search existing records.</p>
+      </header>
+
+      <div class="panel">
+        <h2>Register a patient</h2>
+        <form id="patientForm" class="form-grid">
+          <label>Full name <input required name="name" placeholder="e.g. Meera Joshi" /></label>
+          <label>Phone <input required name="phone" placeholder="10-digit mobile" /></label>
+          <label>Age <input name="age" type="number" min="0" placeholder="e.g. 29" /></label>
+          <label>Gender
+            <select name="gender">
+              <option value="">Select</option>
+              <option>Female</option>
+              <option>Male</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>Blood group
+            <select name="bloodGroup">
+              <option value="">Unknown</option>
+              <option>A+</option><option>A-</option>
+              <option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option>
+              <option>O+</option><option>O-</option>
+            </select>
+          </label>
+          <label class="span-2">Address <input name="address" placeholder="Area, city" /></label>
+          <button class="btn-primary span-2" type="submit">Register patient</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head-row">
+          <h2>Patient directory</h2>
+          <input id="patientSearch" class="search-input" placeholder="Search by name or phone..." />
+        </div>
+        <div id="patientTable" class="table"></div>
+      </div>
+    </section>
+
+    <!-- ============ APPOINTMENTS ============ -->
+    <section id="view-appointments" class="view">
+      <header class="view-header">
+        <h1>Appointments</h1>
+        <p>Schedule visits and track their status.</p>
+      </header>
+
+      <div class="panel">
+        <h2>Book an appointment</h2>
+        <form id="appointmentForm" class="form-grid">
+          <label class="span-2">Patient
+            <select required name="patientId" id="apptPatientSelect"></select>
+          </label>
+          <label>Date <input required type="date" name="date" /></label>
+          <label>Time <input required type="time" name="time" /></label>
+          <label class="span-2">Reason for visit <input name="reason" placeholder="e.g. Follow-up, general checkup" /></label>
+          <button class="btn-primary span-2" type="submit">Book appointment</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head-row">
+          <h2>All appointments</h2>
+          <div class="filter-chips" id="apptFilters">
+            <button class="chip active" data-status="">All</button>
+            <button class="chip" data-status="scheduled">Scheduled</button>
+            <button class="chip" data-status="completed">Completed</button>
+            <button class="chip" data-status="cancelled">Cancelled</button>
+          </div>
+        </div>
+        <div id="appointmentTable" class="table"></div>
+      </div>
+    </section>
+
+    <!-- ============ AMBULANCE ============ -->
+    <section id="view-ambulance" class="view">
+      <header class="view-header">
+        <h1>Ambulance requests</h1>
+        <p>Log and track emergency transport requests.</p>
+      </header>
+
+      <div class="panel">
+        <h2>Request an ambulance</h2>
+        <form id="ambulanceForm" class="form-grid">
+          <label>Requester name <input required name="requesterName" placeholder="Full name" /></label>
+          <label>Phone <input required name="phone" placeholder="10-digit mobile" /></label>
+          <label class="span-2">Pickup location <input required name="location" placeholder="Address / landmark" /></label>
+          <label class="span-2">Notes <input name="notes" placeholder="Optional: additional details for the driver" /></label>
+          <button class="btn-danger span-2" type="submit">Submit request</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Request log</h2>
+        <div id="ambulanceTable" class="table"></div>
+      </div>
+    </section>
+
+    <!-- ============ BLOOD ============ -->
+    <section id="view-blood" class="view">
+      <header class="view-header">
+        <h1>Blood requirements</h1>
+        <p>Report a need for blood, or search who has reported availability.</p>
+      </header>
+
+      <div class="panel">
+        <h2>Report need or availability</h2>
+        <form id="bloodForm" class="form-grid">
+          <label>Type
+            <select required name="type">
+              <option value="need">Need blood</option>
+              <option value="have">Can donate / have availability</option>
+            </select>
+          </label>
+          <label>Blood group
+            <select required name="bloodGroup">
+              <option value="">Select</option>
+              <option>A+</option><option>A-</option>
+              <option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option>
+              <option>O+</option><option>O-</option>
+            </select>
+          </label>
+          <label>Contact name <input required name="contactName" /></label>
+          <label>Phone <input required name="phone" /></label>
+          <label class="span-2">Location <input required name="location" placeholder="Area, city" /></label>
+          <button class="btn-primary span-2" type="submit">Submit report</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head-row">
+          <h2>Search reports</h2>
+          <div class="inline-filters">
+            <select id="bloodGroupFilter">
+              <option value="">Any group</option>
+              <option>A+</option><option>A-</option>
+              <option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option>
+              <option>O+</option><option>O-</option>
+            </select>
+            <input id="bloodLocationFilter" placeholder="Filter by location..." />
+          </div>
+        </div>
+        <div id="bloodTable" class="table"></div>
+      </div>
+    </section>
+
+    <!-- ============ FACILITIES ============ -->
+    <section id="view-facilities" class="view">
+      <header class="view-header">
+        <h1>Nearby facilities</h1>
+        <p>Hospitals, clinics and blood banks in the network.</p>
+      </header>
+
+      <div class="panel">
+        <div class="panel-head-row">
+          <h2>Directory</h2>
+          <div class="inline-filters">
+            <select id="facilityTypeFilter">
+              <option value="">All types</option>
+              <option>Hospital</option>
+              <option>Clinic</option>
+              <option>Blood Bank</option>
+              <option>Ambulance</option>
+            </select>
+            <input id="facilityLocationFilter" placeholder="Filter by location..." />
+          </div>
+        </div>
+        <div id="facilityCards" class="card-grid"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
